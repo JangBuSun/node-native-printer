@@ -4,14 +4,9 @@ const dotenv = require('dotenv');
 
 module.exports = function(){
 
-	var args = JSON.parse(process.env.npm_config_argv).original;
-	var test = new RegExp('^-.*$', 'g');
-
-	var flags = args.filter(function(value) {
-		return test.test(value);
-	});
-
-	if (flags.includes('-p') || flags.includes('--production')) {
+	var env = process.env.NODE_ENV || 'development';
+	
+	if (env === 'production') {
 		dotenv.config({path: fs.realpathSync(__dirname + '/../.env')});
 		if (process.env.NNP_PACKAGE) {
 			return;
